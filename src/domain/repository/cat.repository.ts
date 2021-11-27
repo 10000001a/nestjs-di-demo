@@ -1,5 +1,4 @@
-// import Cat from '../cat';
-import { Cat, CatDocument } from '../schema/cat.schema';
+import Cat from '../entity/cat.entity';
 
 export default interface ICatRepository {
   create: (cat: Cat) => Promise<void>;

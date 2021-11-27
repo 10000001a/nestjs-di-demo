@@ -1,29 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+
+import Cat from 'src/domain/entity/cat.entity';
 import ICatRepository from 'src/domain/repository/cat.repository';
-import { Cat, CatDocument } from 'src/domain/schema/cat.schema';
+import { CatDocument, CatSchemaClass } from './schema/cat.schema';
 
 @Injectable()
 export default class CatMongooseRepository implements ICatRepository {
-  constructor(@InjectModel(Cat.name) private catModel: Model<CatDocument>) {}
+  constructor(
+    @InjectModel(CatSchemaClass.name) private catModel: Model<CatDocument>,
+  ) {}
 
   public async create(cat: Cat) {
-    const createdCat = new this.catModel(cat);
+    const createdCat = new this.catModel();
+
+    createdCat.id = cat.getId();
+    createdCat.name = cat.getName();
+    createdCat.age = cat.getAge();
+    createdCat.breed = cat.getBreed();
+
     await createdCat.save();
   }
 
   public async getOne(name: string) {
     const result = await this.catModel.findOne({ name: { $eq: name } }).exec();
-    return { name: result.name, age: result.age, breed: result.breed };
+    return new Cat(result.id, result.name, result.age, result.breed);
   }
 
   public async getAll() {
     const result = await this.catModel.find().exec();
-    return result.map((cat) => ({
-      name: cat.name,
-      age: cat.age,
-      breed: cat.breed,
-    }));
+    return result.map((cat) => new Cat(cat.id, cat.name, cat.age, cat.breed));
   }
 }

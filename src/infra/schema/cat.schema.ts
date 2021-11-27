@@ -1,10 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type CatDocument = Cat & Document;
+export type CatDocument = CatSchemaClass & Document;
 
 @Schema()
-export class Cat {
+export class CatSchemaClass {
+  @Prop({ required: true })
+  id: string;
+
   @Prop({ required: true })
   name: string;
 
@@ -15,7 +18,7 @@ export class Cat {
   breed: string;
 }
 
-export const CatSchema = SchemaFactory.createForClass(Cat);
+export const CatSchema = SchemaFactory.createForClass(CatSchemaClass);
 
 // 이렇게도 사용 가능
 // export const CatSchema = new mongoose.Schema({

@@ -7,24 +7,18 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { AppService } from './app.service';
-import { Cat } from './domain/schema/cat.schema';
-import { CreateCatDto } from './infra/cat.dto';
+import { CatService } from '../../service/cat.service';
+import { CreateCatDto } from '../../service/cat.dto';
 
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+export class CatController {
+  constructor(private readonly catService: CatService) {}
 
   @Post('/cat')
   async createCat(@Body() createCatDto: CreateCatDto) {
     try {
       console.dir(createCatDto);
-      await this.appService.createCat(createCatDto);
+      await this.catService.createCat(createCatDto);
     } catch (e) {
       console.dir(e);
       throw new HttpException(
@@ -37,7 +31,7 @@ export class AppController {
   @Get('/cat/:name')
   async getCat(@Param() params) {
     try {
-      return this.appService.getCat(params.name);
+      return this.catService.getCat(params.name);
     } catch (e) {
       throw new HttpException(
         'Internal Server Error',
@@ -49,7 +43,7 @@ export class AppController {
   @Get('/cats')
   async getCats() {
     try {
-      return await this.appService.getCats();
+      return await this.catService.getCats();
     } catch (e) {
       throw new HttpException(
         'Internal Server Error',
