@@ -5,7 +5,7 @@ import { join } from 'path';
 import { CatController } from './ui/controller/cat.controller';
 import { CatService } from './service/cat.service';
 import CatTypeormRepository from './infra/cat.typeorm.repostiory';
-import { Cat } from './infra/entity/cat.typeorm.entity';
+import { Cat } from './infra/entity/cat.entity';
 
 @Module({
   imports: [
@@ -26,7 +26,8 @@ import { Cat } from './infra/entity/cat.typeorm.entity';
       username: 'user',
       password: 'password',
       database: 'test',
-      entities: [join(__dirname, '/**/*.typeorm.entity.js')],
+      entities: [join(__dirname, '/**/*.entity.js')],
+      // domain/entity.cat.entity.ts 와 infra/entity/cat.entity.ts 사이의 혼란이 있을까 걱정했는데, Typeorm이 알아서 Entity 데코레이터로 구분해주는 듯 하다.
       synchronize: true, // false가 안전함
     }),
     TypeOrmModule.forFeature([Cat]),

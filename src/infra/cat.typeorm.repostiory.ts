@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Cat as TypeOrmCat } from 'src/infra/entity/cat.typeorm.entity';
+import { Cat as TypeOrmCat } from 'src/infra/entity/cat.entity';
 import ICatRepository from 'src/domain/repository/cat.repository';
 import Cat from 'src/domain/entity/cat.entity';
 
