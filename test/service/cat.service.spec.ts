@@ -52,30 +52,29 @@ describe('CatService', () => {
   describe('getOne', () => {
     it('should return a cat (self mocking ver.)', async () => {
       // Given : DB에 하나의 Cat이 주어진다.
-      const result = [new Cat('1', 'one', 1, 'breed')];
-      mockCatRepository.setCats(result);
+      const result = new Cat('1', 'one', 1, 'breed');
+      mockCatRepository.setCats([result]);
 
       // When : 주어진 Cat의 name으로 CatService의 getCat 메서드를 실행한다.
       const cat = await catService.getCat('one');
 
       // Then : getCat의 반환값이 주어진 Cat과 일치한다.
-      expect(cat).toBe(result[0]);
+      expect(cat).toBe(result);
     });
 
     it('should return a cat (jest mocking ver.)', async () => {
       // Given : DB에 하나의 Cat이 주어진다.
-      const result = [new Cat('1', 'one', 1, 'breed')];
+      const result = new Cat('1', 'one', 1, 'breed');
       jest
         .spyOn(mockCatRepository, 'getOne')
-        .mockImplementation((name: string) =>
-          result.find((cat) => cat.getName() === name),
-        );
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .mockImplementation((_: string) => result);
 
       // When : 주어진 Cat의 name으로 CatService의 getCat 메서드를 실행한다.
       const cat = await catService.getCat('one');
 
       // Then : getCat의 반환값이 주어진 Cat과 일치한다.
-      expect(cat).toBe(result[0]);
+      expect(cat).toBe(result);
     });
   });
 
