@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 
 import Cat from 'src/domain/entity/cat.entity';
 import ICatRepository from 'src/domain/repository/cat.repository';
-import { CatDocument, CatSchemaClass } from './schema/cat.schema';
+import { CatDocument, CatSchemaClass } from '../schema/cat.schema';
 
 @Injectable()
 export default class CatMongooseRepository implements ICatRepository {

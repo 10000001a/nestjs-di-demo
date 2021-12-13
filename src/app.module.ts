@@ -4,7 +4,7 @@ import { join } from 'path';
 
 import { CatController } from './ui/controller/cat.controller';
 import { CatService } from './service/cat.service';
-import CatTypeormRepository from './infra/cat.typeorm.repostiory';
+import CatTypeormRepository from './infra/repository/cat.typeorm.repostiory';
 import { Cat } from './infra/entity/cat.entity';
 
 @Module({
