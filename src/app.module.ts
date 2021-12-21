@@ -6,6 +6,7 @@ import { CatController } from './ui/controller/cat.controller';
 import { CatService } from './service/cat.service';
 import CatTypeormRepository from './infra/repository/cat.typeorm.repostiory';
 import { Cat } from './infra/entity/cat.entity';
+import CatValidator from './domain/service/cat.validator';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { Cat } from './infra/entity/cat.entity';
       useClass: CatTypeormRepository,
     },
     CatService,
+    CatValidator,
   ],
 })
 export class AppModule {}

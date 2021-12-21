@@ -3,17 +3,27 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Cat from 'src/domain/entity/cat.entity';
 import ICatRepository from 'src/domain/repository/cat.repository';
-import { CreateCatDto } from './cat.dto';
+import CatValidator from 'src/domain/service/cat.validator';
+import { CreateCatDto } from 'src/service/cat.dto';
 
 @Injectable()
 export class CatService {
   constructor(
     @Inject('CAT_REPOSITORY')
     private readonly catRepository: ICatRepository,
-  ) {}
+    private readonly catValidator: CatValidator,
+  ) {
+    this.catValidator = new CatValidator(this.catRepository);
+  }
 
-  createCat(cat: CreateCatDto) {
-    const newCat = new Cat(uuidv4(), cat.name, cat.age, cat.breed);
+  async createCat(cat: CreateCatDto) {
+    const newCat = await Cat.create(
+      uuidv4(),
+      cat.name,
+      cat.age,
+      cat.breed,
+      this.catValidator,
+    );
     return this.catRepository.create(newCat);
   }
 

@@ -27,6 +27,8 @@ export default class CatTypeormRepository implements ICatRepository {
   public async getOne(name: string) {
     const cat = await this.catRepository.findOne({ name });
 
+    if (!!!cat) return null;
+
     return new Cat(cat.id, cat.name, cat.age, cat.breed);
   }
 
