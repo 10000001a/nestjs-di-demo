@@ -1,3 +1,5 @@
+import CatValidator from 'src/domain/service/cat.validator';
+
 export default class Cat {
   constructor(id: string, name: string, age: number, breed: string) {
     this.id = id;
@@ -30,6 +32,28 @@ export default class Cat {
 
   public getBreed() {
     return this.breed;
+  }
+
+  // contructor 패턴
+  static async create(
+    id: string,
+    name: string,
+    age: number,
+    breed: string,
+    validator: CatValidator,
+  ): Promise<Cat> {
+    if (await this.isDuplicatedName(name, validator)) {
+      // 서비스가 커지면 공통 에러 모듈로 관리하는 방법도 있음
+      throw 'Name is exist!';
+    }
+    return new this(id, name, age, breed);
+  }
+
+  static async isDuplicatedName(
+    name: string,
+    validator: CatValidator,
+  ): Promise<boolean> {
+    return validator.isNameExist(name);
   }
 }
 

@@ -1,13 +1,16 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity()
-export class User {
-  @Column()
+export class Cat {
+  @PrimaryColumn({ nullable: false })
+  id: string;
+
+  @Column({ nullable: false })
   name: string;
 
-  @Column()
+  @Column({ nullable: false })
   age: number;
 
-  @Column()
+  @Column({ nullable: false })
   breed: string;
 }
